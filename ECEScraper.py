@@ -1,20 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
+from getTheSoup import getTheSoup
 import csv
 import time
 
 url = "https://engineering.purdue.edu/ECE/Research/People/Faculty"
-headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-response = requests.get(url, headers=headers)
-
-# Check if request was successful
-if response.status_code == 200:
-    html_content = response.text
-else:
-    print(f"Failed to retrieve the page. Status code: {response.status_code}")
-    exit()
-
-soup = BeautifulSoup(html_content, "html.parser")
+soup, headers = getTheSoup(url)
 profs = soup.find_all("div", class_="col-8 col-sm-9 list-info")
 
 with open("professors_data.csv", "w", newline="", encoding="utf-8") as f:
